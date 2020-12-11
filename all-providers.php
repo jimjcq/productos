@@ -11,7 +11,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT *,categorias.nombre_cat AS categoria, categorias.id_cat FROM articulos INNER JOIN categorias ON articulos.id_cat01 = categorias.id_cat";
+$sql = "SELECT * FROM proveedores";
 $result = $conn->query($sql);
 
 $output = [];
@@ -24,10 +24,8 @@ if ($result->num_rows > 0) {
 } else {
   echo "0 results";
 }
-
 $conn->close();
-
-$output = array(data => $output);
+//$output = array(data => $output);
 
 echo json_encode($output);
 

@@ -64,7 +64,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Registrar Producto</h5>
+            <h5 class="modal-title" id="modal-title">Registrar Producto</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -79,11 +79,12 @@
                     </div>
                     <div class="col-6 form-group">
                         <label>Cantidad</label>
-                        <input type="text" class="form-control" id="cantidad" placeholder="">
+                        <input type="number" class="form-control" id="cantidad" placeholder="">
                     </div>
                     <div class="col-6 form-group">
                         <label>Categoria</label>
-                        <input type="text" class="form-control" id="categoria" placeholder="">
+                        <select class="form-control" id="categoria" name="categoria">
+                        </select>
                     </div> 
                     <div class="col-6 form-group">
                         <label>Precio</label>
@@ -91,8 +92,9 @@
                     </div>   
                     <div class="col-6 form-group">
                         <label>Proveedor</label>
-                        <input type="text" class="form-control" id="proveedor" placeholder="">
-                    </div>   
+                        <select class="form-control" id="proveedor" name="proveedor">
+                        </select>                    
+                        </div>   
                     <div class="col-6 form-group">
                         <label>Estado</label>
                         <input type="text" class="form-control" id="estado" placeholder="">
@@ -127,8 +129,9 @@
                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </svg>`;
-        $(document).ready(function() {
-            $('#table-products').DataTable({
+
+        
+        let tb_data = $('#table-products').DataTable({
                 ajax: {
                     url: 'all-products',
                     dataSrc: 'data'
@@ -147,11 +150,10 @@
                     }
                 ],
             });
-        } );
 
         $('#btnAdd').click(function() {
-            // clearinput();
-            // $('#modal-title').html('Nuevo pais');
+            clearinput();
+            $('#modal-title').html('Registrar producto');
             // $('#id').val('');
             // $('#name').val('');
             $('#modal-add-product').modal('show');
@@ -177,6 +179,64 @@
                 }
             });
         });
+
+        $('body').on('click', '.edit', function() {
+            clearinput();
+            $('#modal-title').html('Actualizar producto');
+            let data = tb_data.row( $(this).parents('tr') ).data();
+            $('#id').val(data['id_art']);
+            $('#nombre').val(data['nombre_art']);
+            $('#descripcion').val(data['descripcion_art']);
+            $('#categoria').val(data['id_cat']);
+            $('#proveedor').val(data['id_pro01']);
+            $('#cantidad').val(data['cantidad_art']);
+            $('#precio').val(data['precio_art']);
+            $('#estado').val(data['estado_art']);
+            $('#vencimiento').val(data['vencimiento_art']);
+            $('#modal-add-product').modal('show');
+        });
+
+        function clearinput(){
+            $('#id').val('');
+            $('#nombre').val('');
+            $('#descripcion').val('');
+            $('#categoria').val(1);
+            $('#proveedor').val(1);
+            $('#vencimiento').val('');
+            $('#cantidad').val('');
+            $('#precio').val('');
+            $('#estado').val('');
+        }
+
+        /* Llenamos los campos de tipo select */
+        $.ajax({
+                url: 'all-categories',
+                type: 'get',
+                'success': function(response) {
+                    response = JSON.parse(response);
+                    let output = '';
+                    for(let i = 0; i < Object.keys(response).length; i++)
+                    {  
+                        output += `<option value="`+response[i]['id_cat']+`">`+response[i]['nombre_cat']+`</option>`;
+                    }
+                    $('#categoria').html(output);
+                }
+            });
+
+        $.ajax({
+            url: 'all-providers',
+            type: 'get',
+            'success': function(response) {
+                response = JSON.parse(response);
+                let output = '';
+                for(let i = 0; i < Object.keys(response).length; i++)
+                {  
+                    output += `<option value="`+response[i]['id_pro']+`">`+response[i]['nombre_pro']+`</option>`;
+                }
+                $('#proveedor').html(output);
+            }
+        });
+
 
     </script>
 </body>
