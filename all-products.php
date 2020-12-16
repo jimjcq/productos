@@ -22,13 +22,13 @@ if ($result->num_rows > 0) {
     array_push($output, $row) ;
   }
 } else {
-  echo "0 results";
+  echo json_encode([]);
 }
-
-$conn->close();
 
 $output = array(data => $output);
 
 echo json_encode($output);
+
+$conn->close();
 
 ?> 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" />
     <title>Document</title>
 </head>
 <body>
@@ -71,15 +72,15 @@
         </div>
         <div class="modal-body">
             <form id="form-add-product">    
-                <input type="text" class="form-control" id="id" placeholder="" hidden>
+                <input type="text" class="form-control" id="id" name="id" placeholder="" hidden>
                 <div class="row">
                     <div class="col-6 form-group">
                         <label>Nombre</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="">
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="">
                     </div>
                     <div class="col-6 form-group">
                         <label>Cantidad</label>
-                        <input type="number" class="form-control" id="cantidad" placeholder="">
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="">
                     </div>
                     <div class="col-6 form-group">
                         <label>Categoria</label>
@@ -88,7 +89,7 @@
                     </div> 
                     <div class="col-6 form-group">
                         <label>Precio</label>
-                        <input type="text" class="form-control" id="precio" placeholder="">
+                        <input type="text" class="form-control" id="precio" name="precio" placeholder="">
                     </div>   
                     <div class="col-6 form-group">
                         <label>Proveedor</label>
@@ -97,15 +98,15 @@
                         </div>   
                     <div class="col-6 form-group">
                         <label>Estado</label>
-                        <input type="text" class="form-control" id="estado" placeholder="">
+                        <input type="text" class="form-control" id="estado" name="estado" placeholder="">
                     </div>    
                     <div class="col-6 form-group">
                         <label>Vencimiento</label>
-                        <input type="date" class="form-control" id="vencimiento" placeholder="">
+                        <input type="date" class="form-control" id="vencimiento" name="vencimiento" placeholder="">
                     </div> 
                     <div class="col-6 form-group">
                         <label>Descripción</label>
-                        <textarea name="" id="descripcion" cols="30" rows="2" class="form-control"></textarea>
+                        <textarea name="descripcion" id="descripcion" cols="30" rows="2" class="form-control"></textarea>
                     </div>               
                 </div>
             </form>
@@ -119,10 +120,11 @@
     </div>
 
     
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous"></script>
 
     <script>
         var icon = `<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -165,16 +167,16 @@
             let data = $('#form-add-product').serialize();
             
             $.ajax({
-                url: 'register-product',
+                url: 'save-product',
                 type: 'post',
                 data: data,
                 'success': function(response) {
-                    /*if(response == true)
+                    response = JSON.parse(response);
+                    if(response == true)
                         toastr.success('Se grabó satisfactoramente');
                     else
                         toastr.error('Se ha producido un error');
                     tb_data.ajax.reload();
-                    */
                     $('#modal-add-product').modal('hide');
                 }
             });
@@ -237,6 +239,9 @@
             }
         });
 
+        function validate_data(){
+            return true;
+        }
 
     </script>
 </body>
