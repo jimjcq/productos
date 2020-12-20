@@ -135,7 +135,7 @@
         
         let tb_data = $('#table-products').DataTable({
                 ajax: {
-                    url: 'all-products',
+                    url: 'all-products.php',
                     dataSrc: 'data'
                 },
                 columns: [
@@ -167,7 +167,7 @@
             let data = $('#form-add-product').serialize();
             
             $.ajax({
-                url: 'save-product',
+                url: 'save-product.php',
                 type: 'post',
                 data: data,
                 'success': function(response) {
@@ -212,7 +212,7 @@
 
         /* Llenamos los campos de tipo select */
         $.ajax({
-                url: 'all-categories',
+                url: 'all-categories.php',
                 type: 'get',
                 'success': function(response) {
                     response = JSON.parse(response);
@@ -226,7 +226,7 @@
             });
 
         $.ajax({
-            url: 'all-providers',
+            url: 'all-providers.php',
             type: 'get',
             'success': function(response) {
                 response = JSON.parse(response);

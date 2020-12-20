@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "root";
+$password = "";
 $dbname = "botica";
 
 // Create connection
@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
   echo json_encode([]);
 }
 
-$output = array(data => $output);
+$output = array('data' => $output);
 
 echo json_encode($output);
 
